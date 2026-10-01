@@ -1,4 +1,4 @@
-export default function Table({items=[]} : {items: Array<any>}) {
+export default function Table({items=[]} : {items: any[]}) {
 	if (items.length === 0) {
 		return <div>[no items]</div>
 	}
@@ -20,7 +20,7 @@ function TableHead({sampleObject} : {sampleObject: any}) {
 	)
 }
 
-function TableBody({objects} : {objects: Array<any>}) {
+function TableBody({objects} : {objects: any[]}) {
 	return (
 		<tbody>
 		{
@@ -30,7 +30,7 @@ function TableBody({objects} : {objects: Array<any>}) {
 	)
 }
 
-function TableRow({data, head=false} : {data: Array<any>, head: boolean}) {
+function TableRow({data, head=false} : {data: any[], head: boolean}) {
 	const CellTag = head ? 'th' : 'td'
 	return (
 		<tr>

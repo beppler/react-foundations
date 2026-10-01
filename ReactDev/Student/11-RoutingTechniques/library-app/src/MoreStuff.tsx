@@ -1,13 +1,15 @@
 import Book from './Book'
 import Film from './Film'
+import LikePanel from './LikePanel'
 
-export default function MoreStuff({books, films, format}: {books: Array<Book>, films: Array<Film>, format: string}) {
-
-	console.log(`Optional exercise, make use of ${books}, ${films}, ${format}`)
-	
+export default function MoreStuff({books, films}: {books: Book[], films: Film[]}) {
     return (
 		<div className="content">
-			Implement MoreStuff component UI here!
+			<h1>More Stuff</h1>
+			<h2>Summary Info</h2>
+			<p>Number of books: {books.length}</p>
+			<p>Number of films: {films.length}</p>
+			<LikePanel />
 		</div>
-    )
+	)
 }

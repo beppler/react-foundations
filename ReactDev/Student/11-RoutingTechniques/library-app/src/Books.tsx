@@ -2,15 +2,15 @@ import Book from './Book'
 import ItemsList from './ItemsList'
 import Table from './Table'
 
-export default function Books({books, format} : {books: Array<Book>, format: String}) {    
-	
+export default function Books({books, format} : {books: Book[], format: string}) {
+
 	return (
 		<div className="content">
 			<h1>Books</h1>
 			{
-				format === "TABLE" ?  
+				format === "TABLE" ?
 					<Table items={books} /> :
-					<ItemsList items={books} ordered={format === "ORDERED_LIST"} /> 
+					<ItemsList items={books} ordered={format === "ORDERED_LIST"} />
 			}
 		</div>
     )

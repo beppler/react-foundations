@@ -16,11 +16,11 @@ export default class DataProvider {
         new Film('Mission Impossible', 'Adventure', ' Hi-octane stunt fest')
     ]
 
-    static getAllBooks() : Array<Book> {
+    static getAllBooks() : Book[] {
         return DataProvider._books
     }
 
-    static getAllFilms() : Array<Film> {
+    static getAllFilms() : Film[] {
         return DataProvider._films
     }
 }
