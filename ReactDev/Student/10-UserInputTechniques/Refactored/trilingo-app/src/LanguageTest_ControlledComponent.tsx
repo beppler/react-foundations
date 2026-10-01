@@ -1,32 +1,30 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 
 function LanguageTest({words, thisLingo, nextLabel, nextPath}: {words: string[], thisLingo: string, nextLabel: string, nextPath: string}) {
 
-	const [correctGuesses, setCorrectGuesses] = useState(0);
-	const [totalGuesses, setTotalGuesses] = useState(0);
-	const [availableWords, setAvailableWords] = useState(words);
+	const [correctGuesses, setCorrectGuesses] = React.useState(0);
+	const [totalGuesses, setTotalGuesses] = React.useState(0);
+	const [availableWords, setAvailableWords] = React.useState(words);
+
+	const [index, setIndex] = React.useState(Math.floor(Math.random() * availableWords.length));
+	const [guess, setGuess] = React.useState('');
 
 	let englishWord: string | undefined
 	let translatedWord: string
-	let index: number;
 
 	if (availableWords.length !== 0) {
-		index = Math.floor(Math.random() * availableWords.length);
 		[englishWord, translatedWord] = availableWords[index].split(':');
 	}
 
 	function onSubmit() {
-
-		const guessElem = document.getElementById('guessTextBox') as HTMLInputElement;
-
-		if (guessElem.value.trim().toLowerCase() === translatedWord) {
+		if (guess.trim().toLowerCase() === translatedWord) {
 			setCorrectGuesses(correctGuesses + 1);
-			availableWords.splice(index, 1)
-			setAvailableWords(availableWords)
+			setAvailableWords(availableWords.toSpliced(index, 1)); // use toSpliced to create a new array instead of mutating the existing one
 		}
 
-		guessElem.value = '';
+		setIndex(Math.floor(Math.random() * availableWords.length)); // always generate a new index for the next word
+		setGuess('');
 		setTotalGuesses(totalGuesses + 1);
 	}
 
@@ -43,9 +41,10 @@ function LanguageTest({words, thisLingo, nextLabel, nextPath}: {words: string[],
 				<div className="guessPanel">
 					<input
 						type="text"
-						id="guessTextBox"
+						value={guess}
 						placeholder={`What's it in ${thisLingo}?`}
 						autoFocus
+						onChange={e => setGuess(e.target.value)}
 						onKeyUp={e => {
 							if (e.key === 'Enter')
 								onSubmit();

@@ -1,11 +1,13 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 
 function LanguageTest({words, thisLingo, nextLabel, nextPath}: {words: string[], thisLingo: string, nextLabel: string, nextPath: string}) {
 
-	const [correctGuesses, setCorrectGuesses] = useState(0);
-	const [totalGuesses, setTotalGuesses] = useState(0);
-	const [availableWords, setAvailableWords] = useState(words);
+	const [correctGuesses, setCorrectGuesses] = React.useState(0);
+	const [totalGuesses, setTotalGuesses] = React.useState(0);
+	const [availableWords, setAvailableWords] = React.useState(words);
+
+	const guessTextBoxRef = React.useRef<HTMLInputElement>(null);
 
 	let englishWord: string | undefined
 	let translatedWord: string
@@ -17,8 +19,7 @@ function LanguageTest({words, thisLingo, nextLabel, nextPath}: {words: string[],
 	}
 
 	function onSubmit() {
-
-		const guessElem = document.getElementById('guessTextBox') as HTMLInputElement;
+		const guessElem = guessTextBoxRef.current!;
 
 		if (guessElem.value.trim().toLowerCase() === translatedWord) {
 			setCorrectGuesses(correctGuesses + 1);
@@ -43,7 +44,7 @@ function LanguageTest({words, thisLingo, nextLabel, nextPath}: {words: string[],
 				<div className="guessPanel">
 					<input
 						type="text"
-						id="guessTextBox"
+						ref={guessTextBoxRef}
 						placeholder={`What's it in ${thisLingo}?`}
 						autoFocus
 						onKeyUp={e => {
