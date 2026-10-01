@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-export default function Words({words, language, nextRoute, nextDescription}: {words: string[], language: string, nextRoute: string, nextDescription: string}) {
+export default function Words({words, thisLingo, nextPath, nextLabel}: {words: string[], thisLingo: string, nextPath: string, nextLabel: string}) {
   const [correctGuesses, setCorrectGuesses] = useState(0)
   const [totalGuesses, setTotalGuesses] = useState(0)
   const [availableWords, setAvailableWords] = useState([...words])
@@ -28,7 +28,7 @@ export default function Words({words, language, nextRoute, nextDescription}: {wo
 
   return (
 		<>
-			<h1>{language} test</h1>
+			<h1>{thisLingo} test</h1>
 
 			<div hidden={englishWord === undefined}>
 
@@ -40,7 +40,7 @@ export default function Words({words, language, nextRoute, nextDescription}: {wo
 					<input
 						type="text"
 						id="guessTextBox"
-						placeholder={`What's it in ${language}?`}
+						placeholder={`What's it in ${thisLingo}?`}
 						autoFocus
 						onKeyUp={e => {
 							if (e.key === 'Enter')
@@ -55,7 +55,7 @@ export default function Words({words, language, nextRoute, nextDescription}: {wo
 				Correct guesses: {correctGuesses} out of {totalGuesses}
 			</div>
 
-			<Link to={nextRoute}>To {nextDescription} ▶️</Link>
+			<Link to={nextPath}>{nextLabel}</Link>
 		</>
   )
 }
