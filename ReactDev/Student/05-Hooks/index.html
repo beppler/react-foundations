@@ -59,8 +59,69 @@
         new Film('Love Actually', 'RomCom', ' Hugh Grant playing Hugh Grant'),
         new Film('Mission Impossible', 'Adventure', ' Hi-octane stunt fest')
     ]
-    
-     function ItemsList({items, ordered}) {
+
+    function Library({books, films, tabularFormat}) {
+        if (tabularFormat) {
+            return (
+                <div>
+                    <h1>My Library</h1>
+                    <h2>Books table</h2>
+                    <Table items={books} />
+                    <h2>Films table</h2>
+                    <Table items={films} />
+                    <LikePanel />
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <h1>My Library</h1>
+                    <h2>Books list</h2>
+                    <ItemsList items={books} ordered={true} />
+                    <h2>Films list</h2>
+                    <ItemsList items={films} ordered={true} />
+                    <LikePanel />
+                </div>
+            )
+        }
+    }
+
+    function LikePanel() {
+        const [myState, setMyState] = React.useState({
+            likes: 0,
+        });
+
+        React.useEffect(() => {
+            console.log(`Likes changed to ${myState.likes}`);
+        }, [myState.likes]);
+
+        function onLike() {
+            setMyState({
+                likes: myState.likes + 1
+            })
+        }
+
+        function onResetLikes() {
+            setMyState({
+                likes: 0
+            })
+        }
+
+        return (
+            <div className='likePanel'>
+                <h2>Like My Library</h2>
+                <span>Likes: <b>{myState.likes}</b></span>&nbsp;
+                <button onClick={onLike}>Like</button>
+                <button onClick={onResetLikes}>Reset like count</button>
+            </div>
+        );
+    }
+
+    function ItemsList({items, ordered}) {
+        if (items.length == 0) {
+            return <div>[no items]</div>
+        }
+
         const ListTag = ordered ? 'ol' : 'ul'
         return (
             <ListTag>
@@ -72,6 +133,10 @@
     }
 
     function Table({items}) {
+        if (items.length == 0) {
+            return <div>[no items]</div>
+        }
+
         return (
             <table>
                 <TableHead sampleObject={items[0]} />
@@ -79,7 +144,7 @@
             </table>
         )
     }
-    
+
      function TableHead({sampleObject}) {
         return (
             <thead>
@@ -111,17 +176,7 @@
 
     function App() {
         return (
-            <div>
-                <h1>My Library</h1>
-                <h2>Books list</h2>
-                <ItemsList items={books} ordered={true} />
-                <h2>Films list</h2>
-                <ItemsList items={films} ordered={true} />        
-                <h2>Books table</h2>
-                <Table items={books} />
-                <h2>Films table</h2>
-                <Table items={films} />
-            </div>
+            <Library books={books} films={films} tabularFormat={true} />
         )
     }
 

@@ -17,10 +17,10 @@
 }
 </script>
 
-<script type="module">
+<script data-type="module" type="text/babel">
     import React from "react"
     import { createRoot } from "react-dom/client"
-    
+
     class Book {
         constructor(title, author) {
             this.title = title
@@ -56,62 +56,71 @@
         new Film('Love Actually', 'RomCom', ' Hugh Grant playing Hugh Grant'),
         new Film('Mission Impossible', 'Adventure', ' Hi-octane stunt fest')
     ]
-    
+
     function ItemsList({items, ordered}) {
-        const elem = ordered ? "ol" : "ul";
-        return React.createElement(
-            elem, 
-            null,
-            items.map((item, i) => React.createElement("li", {key: i}, item.toString()))
+        const Elem = ordered ? "ol" : "ul";
+        return (
+            <Elem>
+                {items.map((item, i) => <li key={i}>{item.toString()}</li>)}
+            </Elem>
         )
     }
 
     function Table({items}) {
         return (
-            React.createElement("table", null,
-                React.createElement(TableHead, {sampleObject: items[0]}),
-                React.createElement(TableBody, {objects: items})
-            )
-        )
+            <table>
+                <TableHead sampleObject={items[0]} />
+                <TableBody objects={items} />
+            </table>
+        );
     }
-    
+
     function TableHead({sampleObject}) {
-        return React.createElement("thead", null,
-            React.createElement(TableRow, {data: Object.keys(sampleObject), head: true})
-        )
+        return (
+            <thead>
+                <TableRow data={Object.keys(sampleObject)} head={true} />
+            </thead>
+        );
     }
 
     function TableBody({objects}) {
-        return React.createElement("tbody", null,
-            objects.map((obj, i) => React.createElement(TableRow, {key: i, data: Object.values(obj), head: false}))
-        )
+        return (
+            <tbody>
+                {objects.map((obj, i) => <TableRow key={i} data={Object.values(obj)} head={false} />)}
+            </tbody>
+        );
     }
 
     function TableRow({head, data}) {
-        const elem = head ? "th" : "td";
-        return React.createElement("tr", null,
-            data.map((d, i) => React.createElement(elem, {key: i}, d))
-        )
+        const Elem = head ? "th" : "td";
+        return (
+            <tr>
+                {data.map((d, i) => <Elem key={i}>{d}</Elem>)}
+            </tr>
+        );
     }
 
     function App() {
-        return React.createElement('div', null,
-            React.createElement('h1', null, 'My Library'),
-            React.createElement('h2', null, 'Books list'),
-            React.createElement(ItemsList, {items: books, ordered: true}, null),
-            React.createElement('h2', null, 'Films list'),
-            React.createElement(ItemsList, {items: films}, null),
-            React.createElement('h2', null, 'Books table'),
-            React.createElement(Table, {items: books}, null),
-            React.createElement('h2', null, 'Films table'),
-            React.createElement(Table, {items: films}, null),
+        return (
+            <div>
+                <h1>My Library</h1>
+                <h2>Books list</h2>
+                <ItemsList items={books} ordered={true} />
+                <h2>Films list</h2>
+                <ItemsList items={films} ordered={false} />
+                <h2>Books table</h2>
+                <Table items={books} />
+                <h2>Films table</h2>
+                <Table items={films} />
+            </div>
         )
     }
-    
-    const root = createRoot(document.getElementById('root'))
-    root.render(React.createElement(App))
 
+    const root = createRoot(document.getElementById('root'))
+    root.render(<App />)
 </script>
+
+<script src="https://unpkg.com/@babel/standalone/babel.js"></script>
 
 </body>
 </html>

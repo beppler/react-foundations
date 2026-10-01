@@ -47,20 +47,44 @@
         }
     }
 
-    const books = [
-        new Book('Millennium', 'Stieg Larsson'),
-        new Book('A Christmas Carol', 'Charles Dickens'),
-        new Book('The Son', 'Jo Nesbo'),
-    ]
+    function Library({baseUrl, tabularFormat}) {
+        const [books, setBooks] = React.useState([])
+        const [films, setFilms] = React.useState([])
 
-    const films = [
-        new Film('Airplane', 'Comedy', 'Classic plane spoof'),
-        new Film('Skyfall', 'Adventure', 'Bond spy yarn'),
-        new Film('Love Actually', 'RomCom', ' Hugh Grant playing Hugh Grant'),
-        new Film('Mission Impossible', 'Adventure', ' Hi-octane stunt fest')
-    ]
-    
-    function Library({books, films, tabularFormat}) {
+        React.useEffect(() => {
+            async function fetchBooks() {
+                try {
+                    const response = await window.fetch(`${baseUrl}/books`)
+                    if (!response.ok) {
+                        throw Error(response.statusText);
+                    }
+                    const booksResult = await response.json();
+                    setBooks(booksResult.map(b => new Book(b.title, b.author)))
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+
+            fetchBooks()
+        }, []);
+
+        React.useEffect(() => {
+            async function fetchFilms() {
+                try {
+                    const response = await window.fetch(`${baseUrl}/films`)
+                    if (!response.ok) {
+                        throw Error(response.statusText);
+                    }
+                    const filmsResult = await response.json();
+                    setFilms(filmsResult.map(f => new Film(f.name, f.genre, f.blurb)))
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+
+            fetchFilms()
+        }, []);
+
         if (tabularFormat) {
             return (
                 <div>
@@ -80,8 +104,8 @@
                     <h2>Books</h2>
                     <ItemsList items={books} ordered={true} />
                     <h2>Films</h2>
-                    <ItemsList items={films} />       
-                    <LikePanel /> 
+                    <ItemsList items={films} />
+                    <LikePanel />
                 </div>
             )
         }
@@ -98,13 +122,13 @@
 
         function onLike() {
             setMyState({
-                likes: myState.likes + 1 
+                likes: myState.likes + 1
             })
         }
 
         function onResetLikes() {
             setMyState({
-                likes: 0 
+                likes: 0
             })
         }
 
@@ -147,7 +171,7 @@
             )
         }
     }
-    
+
     function TableHead({sampleObject}) {
         return (
             <thead>
@@ -179,10 +203,9 @@
 
     function App() {
         return (
-            <Library 
-                films={films} 
-                books={books} 
-                tabularFormat={true} 
+            <Library
+                baseUrl='http://localhost:3000/library'
+                tabularFormat={true}
             />
         )
     }

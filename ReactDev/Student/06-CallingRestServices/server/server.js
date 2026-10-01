@@ -31,11 +31,15 @@ var films = [
 
 // HTTP handler methods.
 router.get('/books', function (req, res) {
-    res.status(200).json(books)
+    setTimeout(function() {
+		res.status(200).json(books)
+	}, 2000);
 })
 
 router.get('/films', function (req, res) {
-    res.status(200).json(films)
+    setTimeout(function() {
+		res.status(200).json(films)
+	}, 4000);
 })
 
 // For requests that have the /library prefix, use the router to route the request to the appropriate HTTP handler method above.

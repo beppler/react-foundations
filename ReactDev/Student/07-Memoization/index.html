@@ -53,7 +53,7 @@
         const [films, setFilms] = React.useState([])
 
         // React effect to fetch books data (only executed once, after first render).
-        React.useEffect(() => {           
+        React.useEffect(() => {
             async function fetchBooks() {
                 try {
                     const response = await window.fetch(`${restBaseUrl}/books`)
@@ -65,12 +65,12 @@
                 } catch (error) {
                     console.log(error)
                 }
-            }           
+            }
             fetchBooks()
         }, [])
 
         // React effect to fetch films data (only executed once, after first render).
-        React.useEffect(() => {           
+        React.useEffect(() => {
             async function fetchFilms() {
                 try {
                     const response = await window.fetch(`${restBaseUrl}/films`)
@@ -82,17 +82,20 @@
                 } catch (error) {
                     console.log(error)
                 }
-            }           
+            }
             fetchFilms()
         }, [])
+
+        const booksHeader = React.useMemo(() => <h2>Books [count: {books.length}]</h2>, [books]);
+        const filmsHeader = React.useMemo(() => <h2>Films [count: {films.length}]</h2>, [films]);
 
         if (tabularFormat) {
             return (
                 <div>
                     <h1>My Library</h1>
-                    <h2>Books</h2>
+                    {booksHeader}
                     <Table items={books} />
-                    <h2>Films</h2>
+                    {filmsHeader}
                     <Table items={films} />
                     <LikePanel />
                 </div>
@@ -102,11 +105,11 @@
             return (
                 <div>
                     <h1>My Library</h1>
-                    <h2>Books</h2>
-                    <ItemsList items={books} ordered={true} />
-                    <h2>Films</h2>
-                    <ItemsList items={films} />       
-                    <LikePanel /> 
+                    {booksHeader}
+                    <Table items={books} />
+                    {filmsHeader}
+                    <Table items={films} />
+                    <LikePanel />
                 </div>
             )
         }
@@ -123,13 +126,13 @@
 
         function onLike() {
             setMyState({
-                likes: myState.likes + 1 
+                likes: myState.likes + 1
             })
         }
 
         function onResetLikes() {
             setMyState({
-                likes: 0 
+                likes: 0
             })
         }
 
@@ -139,9 +142,19 @@
                 <span>Likes: <b>{myState.likes}</b></span>&nbsp;
                 <button onClick={onLike}>Like</button>
                 <button onClick={onResetLikes}>Reset like count</button>
+                <FooterPanel />
             </div>
         )
     }
+
+    const FooterPanel = React.memo(() => {
+        return (
+            <>
+                <hr/>
+                <small>Page generated at {new Date().toLocaleTimeString()}</small>
+            </>
+        )
+    });
 
     function ItemsList({items, ordered}) {
         if (items.length == 0) {
@@ -172,7 +185,7 @@
             )
         }
     }
-    
+
     function TableHead({sampleObject}) {
         return (
             <thead>
@@ -204,9 +217,9 @@
 
     function App() {
         return (
-            <Library 
-                restBaseUrl='http://localhost:3000/library' 
-                tabularFormat={true} 
+            <Library
+                restBaseUrl='http://localhost:3000/library'
+                tabularFormat={true}
             />
         )
     }
