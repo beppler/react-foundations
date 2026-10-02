@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router'
 import DataProvider from './DataProvider'
 
 import MyMenu from './MyMenu';
@@ -28,14 +28,14 @@ function AppLayout() {
 
 const router = createBrowserRouter([
     {
+        path: '/',
         element: <AppLayout />,
-
         children: [
-            { path: '/', element: <Home/> },
-            { path: '*',          element: <PageNotFound /> },
+            { index: true, element: <Home/> },
             { path: '/books',     element: <Books books={books} format="TABLE"/> },
             { path: '/films',     element: <Films films={films} format="TABLE"/> },
             { path: '/moreStuff', element: <MoreStuff books={books} films={films} /> },
+            { path: '*',          element: <PageNotFound /> },
         ]
     }
 ])

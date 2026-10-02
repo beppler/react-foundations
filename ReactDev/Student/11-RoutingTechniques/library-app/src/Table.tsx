@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export default function Table({items=[]} : {items: any[]}) {
 	if (items.length === 0) {
 		return <div>[no items]</div>

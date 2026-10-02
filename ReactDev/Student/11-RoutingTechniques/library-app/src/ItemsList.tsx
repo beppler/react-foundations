@@ -1,9 +1,9 @@
 interface Item {
-	toString() : String;
+	toString() : string;
 }
 
 export default function ItemsList({items=[], ordered=false} : {items: Array<Item>, ordered: boolean}) {
-	
+
 	if (items.length === 0) {
 		return <div>[no items]</div>
 	}
