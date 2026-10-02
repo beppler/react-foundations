@@ -1,12 +1,18 @@
+import { lazy } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 import DataProvider from './DataProvider'
 
 import MyMenu from './MyMenu';
-import Home from './Home';
-import PageNotFound from './PageNotFound';
-import MoreStuff from './MoreStuff';
-import Books from './Books';
-import Films from './Films';
+// import Home from './Home';
+// import PageNotFound from './PageNotFound';
+// import MoreStuff from './MoreStuff';
+// import Books from './Books';
+// import Films from './Films';
+const Home = lazy(() => import('./Home'))
+const PageNotFound = lazy(() => import('./PageNotFound'))
+const MoreStuff = lazy(() => import('./MoreStuff'))
+const Books = lazy(() => import('./Books'))
+const Films = lazy(() => import('./Films'))
 
 const books = DataProvider.getAllBooks()
 const films = DataProvider.getAllFilms()
